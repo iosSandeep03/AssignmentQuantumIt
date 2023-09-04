@@ -17,6 +17,7 @@ class DetailsNewsViewController: UIViewController {
     @IBOutlet weak var TitleLbl: UILabel!
     @IBOutlet weak var DetailsImgView: UIImageView!
     
+    @IBOutlet weak var backBtn: UIButton!
     var updatedatetext : String?
     var authortext : String?
     var discription : String?
@@ -33,9 +34,7 @@ class DetailsNewsViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
-    
    
-
     @IBAction func backButtonTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }

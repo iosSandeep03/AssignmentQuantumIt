@@ -7,7 +7,7 @@
 
 import Foundation
 class modelClass : NSObject {
-    var email = ""
+    var phonenumber = ""
     var setPassword : String = ""
     var errorIndex : Int = -1
     var errormessage = ""

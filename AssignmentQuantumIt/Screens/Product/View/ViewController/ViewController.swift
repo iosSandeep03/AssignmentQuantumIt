@@ -31,8 +31,9 @@ class LoginViewController: UIViewController {
                 if success {
                    
                     DispatchQueue.main.async {
-                        let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "HeadLinesViewController") as! HeadLinesViewController
-                        self.navigationController?.pushViewController(nextVC, animated: true)
+                        if let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "HeadLinesViewController") as? HeadLinesViewController {
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
                     }
                 } else if let error = error {
                     
@@ -43,12 +44,7 @@ class LoginViewController: UIViewController {
                 }
             }
         }
-
-        
-    
-    
-    
-    
+ 
     @IBAction func forgotBtn(_ sender: UIButton)
     {
         
@@ -56,13 +52,15 @@ class LoginViewController: UIViewController {
     @IBAction func signInBtn(_ sender: Any)
     {
         
-        let headLinesVC = self.storyboard?.instantiateViewController(withIdentifier: "HeadLinesViewController") as! HeadLinesViewController
-        self.navigationController?.pushViewController(headLinesVC, animated: true)
+        if self.registration(){
+            
+            if let headLinesVC = self.storyboard?.instantiateViewController(withIdentifier: "HeadLinesViewController") as? HeadLinesViewController{
+                self.navigationController?.pushViewController(headLinesVC, animated: true)
+                
+            }
+        }
         
     }
-    
-    
-    
     @IBAction func SignUpBtn(_ sender: UIButton)
     {
         
@@ -98,6 +96,8 @@ class LoginViewController: UIViewController {
             }
         }
     }
+    
+   
 
 }
 
@@ -120,16 +120,19 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "loginTableViewCell") as! loginTableViewCell
         
-        cell.textField.placeholder = "Email"
+
         
         cell.textField.tag = indexPath.row + 100
         cell.textField.delegate = self
-        cell.textField.text = modelObj.email
+        cell.textField.text = modelObj.phonenumber
         cell.textField.layer.borderWidth = 2
-        cell.textField.placeholder = "Enter Your Email Address"
+        
         cell.textField.layer.cornerRadius = 24
         cell.errorLbl.text = (indexPath.row == modelObj.errorIndex ? modelObj.errormessage : "")
-        cell.textField.attributedPlaceholder = NSAttributedString(string:"Email", attributes:[NSAttributedString.Key.foregroundColor: UIColor.white])
+        cell.textField.attributedPlaceholder = NSAttributedString(string:"Enter Your Phone Number", attributes:[NSAttributedString.Key.foregroundColor: UIColor.black])
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: cell.textField.frame.size.height))
+        cell.textField.leftView = paddingView
+        cell.textField.leftViewMode = .always
         
         return cell
         
@@ -149,7 +152,10 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
         cell.textField.placeholder = "Enter Your Password"
         cell.textField.text = modelObj.setPassword
         cell.errorLbl.text = (indexPath.row == modelObj.errorIndex ? modelObj.errormessage : "")
-        cell.textField.attributedPlaceholder = NSAttributedString(string:"Password", attributes:[NSAttributedString.Key.foregroundColor: UIColor.white])
+        cell.textField.attributedPlaceholder = NSAttributedString(string:"Enter Your Password", attributes:[NSAttributedString.Key.foregroundColor: UIColor.black])
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: cell.textField.frame.size.height))
+        cell.textField.leftView = paddingView
+        cell.textField.leftViewMode = .always
         
         return cell
     }
@@ -166,23 +172,36 @@ func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange
         let numofchar = newstring.count
         
         switch textField.tag - 100{
-            case 0:
-                modelObj.email = newstring
-                _ = isAllFieldForEmail()
-                if let cell : loginTableViewCell = loginTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? loginTableViewCell {
-                    if(modelObj.errorIndex == 0)
-                    {
-                        cell.errorLbl.text = modelObj.errormessage
-                    }
-                    else if (numofchar < 8)
-                    {
-                        cell.errorLbl.text = "*Please enter valid email address."
-                    }
-                    else {
-                        cell.errorLbl.text = ""
-                    }
+        case 0:
+            modelObj.phonenumber = newstring
+            _ = isAllFieldForPhone()
+            if let cell : loginTableViewCell = loginTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? loginTableViewCell {
+                
+                if(modelObj.errorIndex == 0){
+                    
+                    cell.errorLbl.text = modelObj.errormessage
+                    
                 }
-                return true
+                else if (numofchar < 8) {
+                    
+                    cell.errorLbl.text = "*Please enter correct phone number."
+                }
+                
+                else if (!isAllFieldForPhone()) {
+                    cell.errorLbl.text = "*Please enter correct phone number."
+                    
+                }
+                else if (numofchar == 11){
+                    
+                    return false
+                }
+                else {
+                    
+                    cell.errorLbl.text = ""
+                }
+            }
+            return true
+            
             case 1:
                 modelObj.setPassword = newstring
                 
@@ -215,6 +234,46 @@ func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange
     
     return true
 }
+    
+    func isAllFieldForPhone() -> Bool {
+        var isVerified = false
+        
+        
+        if modelObj.phonenumber.count == 0 {
+            modelObj.errorIndex = 0
+            modelObj.errormessage = "*Please enter phone number."
+        }
+        else if modelObj.phonenumber.count < 8 {
+            modelObj.errorIndex = 0
+            modelObj.errormessage = "*Please enter your correct phone number."
+        }
+        else {
+            isVerified = true
+            modelObj.errorIndex = -1
+            modelObj.errormessage = ""
+            let isValid = isContainsAllZeros(testStr: modelObj.phonenumber)
+            if !isValid {
+                // correct mail
+            } else {
+                isVerified = false
+                modelObj.errorIndex = 0
+                modelObj.errormessage = "*Please enter your correct mobile number."
+            }
+            
+        }
+        // self.TableView.reloadData()
+        return isVerified
+    }
+    func isContainsAllZeros(testStr: String) -> Bool {
+        
+        
+        let mobileNoRegEx = "^0{2,15}$"
+        
+        let mobileNoTest = NSPredicate(format: "SELF MATCHES %@", mobileNoRegEx)
+        
+        return mobileNoTest.evaluate(with: testStr)
+        
+    }
 
 
 func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -230,65 +289,22 @@ func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 }
 }
 
-extension LoginViewController {
 
-func isAllFieldForEmail() -> Bool {
-    var isVerified = false
-    
-    if modelObj.email.count == 0 {
-        
-        modelObj.errorIndex = 0
-        modelObj.errormessage = "*Please enter your email address."
-    }
-    else {
-        isVerified = true
-        modelObj.errorIndex = -1
-        modelObj.errormessage = ""
-        let isValid = isValidEmail(testStr: modelObj.email)
-        if isValid {
-            
-        } else {
-            isVerified = false
-            
-            modelObj.errorIndex = 0
-            
-            modelObj.errormessage = "*Please enter your correct email address."
-        }
-    }
-    
-    // self.TableView.reloadData()
-    return isVerified
-}
-func isValidEmail(testStr:String) -> Bool {
-    
-    let emailRegEx = "^(((([a-zA-Z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])+(\\.([a-zA-Z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])+)*)|((\\x22)((((\\x20|\\x09)*(\\x0d\\x0a))?(\\x20|\\x09)+)?(([\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f]|\\x21|[\\x23-\\x5b]|[\\x5d-\\x7e]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])|(\\([\\x01-\\x09\\x0b\\x0c\\x0d-\\x7f]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}]))))*(((\\x20|\\x09)*(\\x0d\\x0a))?(\\x20|\\x09)+)?(\\x22)))@((([a-zA-Z]|\\d|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])|(([a-zA-Z]|\\d|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])([a-zA-Z]|\\d|-|\\.|_|~|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])*([a-zA-Z]|\\d|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])))\\.)+(([a-zA-Z]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])|(([a-zA-Z]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])([a-zA-Z]|\\d|-|_|~|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])*([a-zA-Z]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])))\\.?$"
-    let email = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-    let result = email.evaluate(with: testStr)
-    return result
-}
-
-}
 extension LoginViewController {
 
 func registration() -> Bool {
     
     var login = false
     
-    if (modelObj.email.isEmpty){
-        
-        modelObj.errorIndex = 0
-        modelObj.errormessage = "*Please enter your email address."
-        self.loginTableView.scrollToRow(at : IndexPath(row: 0, section: 0), at: .top, animated: true)
-        
-    }
-    else if (!isAllFieldForEmail())
+    if (!isAllFieldForPhone())
     {
         
         modelObj.errorIndex = 0
-        modelObj.errormessage = "*Please enter your correct e-mail address."
+        modelObj.errormessage = "*Please enter your correct phone number."
         self.loginTableView.scrollToRow(at : IndexPath(row: 0, section: 0), at: .top, animated: true)
         
     }
+    
     
     
     else if (modelObj.setPassword.isEmpty) {

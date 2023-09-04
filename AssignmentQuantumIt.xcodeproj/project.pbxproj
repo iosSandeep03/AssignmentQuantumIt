@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6183E81C2AA5AAA30004EC95 /* Roboto in Resources */ = {isa = PBXBuildFile; fileRef = 6183E81B2AA5AAA30004EC95 /* Roboto */; };
 		618840562AA355320038A4F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618840552AA355320038A4F2 /* AppDelegate.swift */; };
 		618840582AA355320038A4F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618840572AA355320038A4F2 /* SceneDelegate.swift */; };
 		6188405A2AA355320038A4F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618840592AA355320038A4F2 /* ViewController.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6183E81B2AA5AAA30004EC95 /* Roboto */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Roboto; path = ../../../../Downloads/Roboto; sourceTree = "<group>"; };
 		618840522AA355320038A4F2 /* AssignmentQuantumIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AssignmentQuantumIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		618840552AA355320038A4F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		618840572AA355320038A4F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +72,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6183E81D2AA5D9A00004EC95 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				6188406D2AA35B8D0038A4F2 /* loginTableViewCell.swift */,
+				61BE89552AA468A700FF935A /* HeadlinesTableViewCell.swift */,
+			);
+			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		6183E81E2AA5D9BA0004EC95 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				618840592AA355320038A4F2 /* ViewController.swift */,
+				6188406F2AA35C860038A4F2 /* HeadLinesViewController.swift */,
+				61BE895E2AA4830600FF935A /* DetailsNewsViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		618840492AA355320038A4F2 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +112,7 @@
 		618840542AA355320038A4F2 /* AssignmentQuantumIt */ = {
 			isa = PBXGroup;
 			children = (
+				6183E81B2AA5AAA30004EC95 /* Roboto */,
 				61BE894C2AA45B9200FF935A /* Extensions */,
 				61BE894A2AA45B8E00FF935A /* Constant */,
 				61BE894B2AA45B9000FF935A /* Resources */,
@@ -175,11 +197,8 @@
 		61BE89532AA45C7100FF935A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				618840592AA355320038A4F2 /* ViewController.swift */,
-				6188406F2AA35C860038A4F2 /* HeadLinesViewController.swift */,
-				6188406D2AA35B8D0038A4F2 /* loginTableViewCell.swift */,
-				61BE89552AA468A700FF935A /* HeadlinesTableViewCell.swift */,
-				61BE895E2AA4830600FF935A /* DetailsNewsViewController.swift */,
+				6183E81E2AA5D9BA0004EC95 /* ViewController */,
+				6183E81D2AA5D9A00004EC95 /* TableViewCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -250,7 +269,7 @@
 			);
 			mainGroup = 618840492AA355320038A4F2;
 			packageReferences = (
-				61BE89592AA478E800FF935A /* XCRemoteSwiftPackageReference "Kingfisher.git" */,
+				61BE89592AA478E800FF935A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 618840532AA355320038A4F2 /* Products */;
 			projectDirPath = "";
@@ -266,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6183E81C2AA5AAA30004EC95 /* Roboto in Resources */,
 				618840622AA355380038A4F2 /* LaunchScreen.storyboard in Resources */,
 				61AECF4C2AA4C201006ECD64 /* GoogleService-Info.plist in Resources */,
 				6188405F2AA355380038A4F2 /* Assets.xcassets in Resources */,
@@ -554,7 +574,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		61BE89592AA478E800FF935A /* XCRemoteSwiftPackageReference "Kingfisher.git" */ = {
+		61BE89592AA478E800FF935A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
 			requirement = {
@@ -567,7 +587,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		61BE895A2AA478E800FF935A /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 61BE89592AA478E800FF935A /* XCRemoteSwiftPackageReference "Kingfisher.git" */;
+			package = 61BE89592AA478E800FF935A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
