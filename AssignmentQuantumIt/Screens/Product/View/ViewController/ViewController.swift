@@ -66,6 +66,8 @@ class LoginViewController: UIViewController {
         
     }
     
+    //Setup for GoogleLogin-----------
+    
     func googleLogin(completion: @escaping (Bool, Error?) -> Void) {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { authentication, error in
             if let error = error {
@@ -100,6 +102,9 @@ class LoginViewController: UIViewController {
    
 
 }
+
+//MArk -----SetupTableView--------
+
 
 extension LoginViewController : UITableViewDelegate, UITableViewDataSource
 {
