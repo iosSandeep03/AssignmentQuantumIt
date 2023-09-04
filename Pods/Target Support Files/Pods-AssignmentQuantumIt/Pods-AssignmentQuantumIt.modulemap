@@ -1,0 +1,6 @@
+framework module Pods_AssignmentQuantumIt {
+  umbrella header "Pods-AssignmentQuantumIt-umbrella.h"
+
+  export *
+  module * { export * }
+}
